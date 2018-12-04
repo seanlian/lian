@@ -1,0 +1,24 @@
+.container-fluid{
+	
+	height:40px;
+	line-height: 40px;
+}
+
+.col-xs-4{
+	text-align: center;
+	border-right:1px solid black;
+	border-bottom:1px solid darkgray;
+}
+
+#title{
+	nowrap:nowrap;
+	font-weight: lighter;
+	font-size: 5px;
+}
+#datas{
+	margin:20px 0;
+}
+
+
+
+

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title></title>
+		<link rel="stylesheet" href="{{url_for('fl.static',filename='css/datas.css')}}">
+        <style>
+            .shops{
+                height:110px;
+            }
+        </style>
+	</head>
+	<body>
+		{%include 'head.html'%}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-4" id="hero">
+					
+						<div class="row" id="dg">英雄</div>
+					
+				</div>
+				<div class="col-xs-4" id="shop">
+					
+						<div >物品</div>
+					
+				</div>
+				<div class="col-xs-4" id="spell">
+					
+						<div >召唤师技能</div>
+					
+				</div>
+		
+			</div>
+		</div>
+
+	<div class="container-fluid" id="datas">
+        <div class="row" id="rows">
+
+        </div>
+	</div>
+
+
+    <div class="container-fluid spell_infors">
+
+    </div>
+
+	</body>
+	<script type="text/javascript">
+		$('.col-xs-4:first-child').css({
+			background:'gold',
+		});
+		$('.col-xs-4').on('click',function(){
+			$('.col-xs-4').css({
+				background:'#F5F5F5',
+			});
+			$(this).css({
+				background:'gold',
+
+			});
+		});
+		show_heros();
+        function  show_heros() {
+            $.ajax({
+                url:'{{url_for("fl.show_heros")}}',
+                type:'get',
+                success:function (res) {
+                    let heros_list=JSON.parse(res)['res'];
+
+                   for(let i=0;i<heros_list.length;i++){
+                       let str=`
+
+                        <div class='col-xs-3 imgs'>
+                            <img src="${heros_list[i]['img_url']}" alt="">
+                            <small>${heros_list[i]['title']}</small>
+                        </div>
+
+                    `;
+                       let temp=$(str);
+                        $('#rows').append(temp);
+                   }
+
+                }
+            });
+        }
+
+		//加载英雄
+        $('#hero').on('click',function(){
+             $('#rows').empty();
+            show_heros();
+        });
+        		//加载物品
+        $('#shop').on('click',function(){
+            $('#rows').empty();
+            show_shop();
+        });
+
+        //加载召唤师技能
+        $('#spell').on('click',function(){
+            $('#rows').empty();
+            show_spell();
+
+        });
+
+        function show_spell() {
+                $.ajax({
+                url:'{{url_for("fl.show_spell")}}',
+                type:'get',
+                success:function (res) {
+                    let heros_list=JSON.parse(res)['res'];
+
+                    for(let i=0;i<heros_list.length;i++){
+                       let str=`
+
+                        <div class='col-xs-3 imgs'>
+
+                            <img src="${heros_list[i]['img_url']}" alt="${heros_list[i]['title']}" class="img_click">
+                            <small>${heros_list[i]['title']}</small>
+
+                        </div>
+
+                        `;
+                       let temp=$(str);
+                        $('#rows').append(temp);
+                    };
+                    $('.img_click').on('click',function () {
+                        $('.spell_infors').empty();
+                        let data=$(this).attr('alt');
+
+                        $.ajax({
+                            url:'{{url_for("fl.show_spell_infors")}}',
+                            type:'get',
+                            data:{"data":data},
+                            success:function(res){
+                                let datas_list=JSON.parse(res)['res'][0];
+
+                                let str=`
+                                    <div class="row">
+                                    <div class="col-xs-12  " >
+
+                                           <h3>
+                                                ${datas_list['title']}
+                                               <small>${datas_list['rank']}</small>
+                                           </h3>
+                                           <p>${datas_list['text']}</p>
+                                    </div>
+                                    <div class="col-xs-12">
+                                            <img src="${datas_list['big_url']}" alt="">
+                                    </div>
+                                  </div>
+
+
+
+                               `;
+                                let temp=$(str);
+
+                                $('.spell_infors').append(temp);
+                            }
+
+                        })
+
+                    });
+
+                }
+            });
+
+
+
+        }
+        function  img_click() {
+            $('.img_click').on('click',function () {
+
+            });
+        }
+
+
+        function show_shop(){
+            $.ajax({
+                url: '{{url_for("fl.show_shop")}}',
+                type: 'get',
+                success: function (res) {
+                    let heros_list = JSON.parse(res)['res'];
+                    console.log(heros_list);
+                    for(let i=0;i<heros_list.length;i++){
+                       let str=`
+
+                        <div class='col-xs-3 imgs shops' style="margin: 10px 0";>
+
+                                <img src="${heros_list[i]['img_url']}" alt="" >
+                                <div class="row">
+                                    <div class="col-xs-50" style="text-align:match-parent">
+                                        <p>${heros_list[i]['title']}</p>
+                                    </div>
+                                 </div>
+                        </div>
+
+                    `;
+                       let temp=$(str);
+                        $('#rows').append(temp);
+                   }
+                }
+
+            });
+
+
+
+        }
+
+
+	</script>
+</html>

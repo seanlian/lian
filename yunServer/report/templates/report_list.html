@@ -1,0 +1,400 @@
+﻿{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global.css'%}" />
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global_color.css'%}" />
+        <script language="javascript" type="text/javascript">
+            function changeTab(e,ulObj) {                
+                var obj = e.srcElement || e.target;
+                if (obj.nodeName == "A") {
+                    var links = ulObj.getElementsByTagName("a");
+                    for (var i = 0; i < links.length; i++) {
+                        if (links[i].innerHTML == obj.innerHTML) {
+                            links[i].className = "tab_on";
+                        }
+                        else {
+                            links[i].className = "tab_out";
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="{%static 'images/logo.png'%}" alt="logo" class="left"/>
+            <a href="{%url 'sl'%}">[退出]</a>
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <!--1-->
+                <li><a href="{%url 'index'%}" class="index_off"></a></li>
+                <!--2-->
+                <li><a href="{%url 'role_list'%}" class="role_off"></a></li>
+                <!--3-->
+                <li><a href="{%url 'sml'%}" class="admin_off"></a></li>
+                <!--4-->
+                <li><a href="{%url 'show_fee_list'%}" class="fee_off"></a></li>
+                <!--5-->
+                <li><a href="{%url 'show_account_list'%}" class="account_off"></a></li>
+
+                <!--6-->
+                <li><a href="{%url 'show_service_list'%}" class="service_off"></a></li>
+                <!--7-->
+                <li><a href="{%url 'show_bill_list'%}" class="bill_off"></a></li>
+                <!--8-->
+                <li><a href="{%url 'show_report_list'%}" class="report_on"></a></li>
+                <!--9-->
+                <li><a href="{%url 'show_user_info'%}" class="information_off"></a></li>
+                <!--10-->
+                <li><a href="{%url 'show_user_modi_pwd'%}" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->        
+        <div id="report_main">
+        	<div class="tabs">
+    	        <ul onclick="changeTab(event,this);">
+        	        <li><a href="#####" class="tab_on" id="tab1" title="每位客户每月的累计时长">客户使用时长</a></li>
+                    <li><a href="#####" class="tab_out" id="tab2" title="每台服务器上累计时长最高的前三名客户">时长排行榜</a></li>
+                    <li><a href="#####" class="tab_out" id="tab3" title="每台服务器每种资费标准的使用次数">资费使用率</a></li>
+                </ul>
+            </div>            
+            <div class="report_box">
+                <!--数据区域：用表格展示数据-->
+                <div id="report_data">
+                    <table id="datalist">
+                        <tr>                            
+                            <th>账号 ID</th>
+                            <th>账务帐号</th>
+                            <th>客户名称</th>
+                            <th class="width200">身份证号码</th>
+                            <th>电话</th>
+                            <th class="width150">月份</th>
+                            <th class="width150">累积时长</th>
+                        </tr>                      
+                        <!--<tr>-->
+                            <!--<td>1</td>-->
+                            <!--<td>mary</td>-->
+                            <!--<td>贾强</td>-->
+                            <!--<td>220222020202020202</td>-->
+                            <!--<td>13987654345</td>-->
+                            <!--<td>2013年1月</td>-->
+                            <!--<td>16小时32分</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>1</td>-->
+                            <!--<td>mary</td>-->
+                            <!--<td>贾强</td>-->
+                            <!--<td>220222020202020202</td>-->
+                            <!--<td>13987654345</td>-->
+                            <!--<td>2013年2月</td>-->
+                            <!--<td>16小时32分</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>1</td>-->
+                            <!--<td>mary</td>-->
+                            <!--<td>贾强</td>-->
+                            <!--<td>220222020202020202</td>-->
+                            <!--<td>13987654345</td>-->
+                            <!--<td>2013年3月</td>-->
+                            <!--<td>16小时32分</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>2</td>-->
+                            <!--<td>tony</td>-->
+                            <!--<td>真真</td>-->
+                            <!--<td>220222020202020202</td>-->
+                            <!--<td>13987654345</td>-->
+                            <!--<td>2013年1月</td>-->
+                            <!--<td>16小时32分</td>-->
+                        <!--</tr>-->
+                    </table>
+                    <table id="datalist1" style="display:none;">
+                        <tr>                            
+                            <th class="width300">Unix 服务器IP</th>
+                            <th>账务帐号</th>
+                            <th>客户名称</th>
+                            <th class="width200">身份证号码</th>
+                            <th class="width150">累积时长</th>
+                        </tr>                      
+                        <tr>
+                            <td>192.168.0.20</td>
+                            <td>mary</td>
+                            <td>贾强</td>
+                            <td>220222020202020202</td>
+                            <td>106小时32分</td>
+                        </tr>
+                        <tr>
+                            <td>192.168.0.20</td>
+                            <td>tony</td>
+                            <td>米奇</td>
+                            <td>220222020202020202</td>
+                            <td>96小时32分</td>
+                        </tr><tr>
+                            <td>192.168.0.20</td>
+                            <td>jecy</td>
+                            <td>米妮</td>
+                            <td>220222020202020202</td>
+                            <td>16小时32分</td>
+                        </tr>
+                        <tr>
+                            <td>192.168.0.23</td>
+                            <td>mary</td>
+                            <td>贾强</td>
+                            <td>220222020202020202</td>
+                            <td>16小时32分</td>
+                        </tr>
+                    </table>
+                    <table id="datalist2" style="display:none;">
+                        <tr>                            
+                            <th class="width300">Unix 服务器IP</th>
+                            <th>包月</th>
+                            <th>套餐</th>
+                            <th>计时</th>
+                        </tr>                      
+                        <tr>
+                            <td>192.168.0.20</td>
+                            <td>345</td>
+                            <td>21</td>
+                            <td>34</td>
+                        </tr>
+                        <tr>
+                            <td>192.168.0.23</td>
+                            <td>32</td>
+                            <td>221</td>
+                            <td>314</td>
+                        </tr>                        
+                    </table>
+                </div>
+                <!--分页-->
+                <div id="pages">
+                    <a href="#" id="首页">首页</a>
+        	        <a href="#" id="up">上一页</a>
+                    <a href="#" id="1" class="current_page" name="页">1</a>
+                    <a href="#" id="2" name="页">2</a>
+                    <a href="#" id="3" name="页">3</a>
+                    <a href="#" id="4" name="页">4</a>
+                    <a href="#" id="5" name="页">5</a>
+                    <a href="#" id="down">下一页</a>
+                    <a href="#" id="末页">末页</a>
+                </div>
+
+            </div>
+        </div>
+        <!--主要区域结束-->
+        <div id="footer">
+            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+            <p>版权所有(C)云科技有限公司 </p>
+        </div>
+    </body>
+    <script src="{%static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{%static 'js/jquery.cookie.js'%}"></script>
+    <script src="{%static 'js/csrf.js'%}"></script>
+    <script>
+        //登录权限验证
+        identify();
+        function identify() {
+                //判断登录的管理员是何种类别的管理员
+                let type=$.cookie('master_limit_type');
+                console.log(type);
+                let m_list=type.split(',');
+                let m_type1=0;
+                let m_type2=0;
+                let m_type3=0;
+                for(let i =0;i<m_list.length;i++){
+                    if( m_list[i]=='超级管理员'){
+                        m_type1=1;
+                    }
+                    else if( m_list[i]=='账目管理员'){
+                        m_type2=2;
+                    }
+                    else if( m_list[i]=='业务管理员'){
+                         m_type3=3;
+                    }
+
+                }
+                console.log(m_list);
+                //设置账目管理员权限
+                if(m_type1!=1){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    if(m_type2==2 && m_type3==0){
+
+                    $('ul li:nth-child(4) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(6) a').attr('href','{%url "snop"%}');
+
+                    }
+                //设置资费管理员权限
+                    else if(m_type2==0 && m_type3==3){
+
+                    $('ul li:nth-child(5) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(7) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(8) a').attr('href','{%url "snop"%}');
+
+                    }
+                }
+            }
+
+        function scroll(count){
+                $('#pages a[name="页"]').each(function(index,ele){
+                    $(ele).attr('class','');
+                });
+                $($('#pages a[name="页"]')[count]).attr('class','current_page');
+
+        }
+        $('#pages a[name="页"]').each(function(index,ele){
+
+                $(ele).on('click',function(){
+                    scroll(index);
+
+                });
+        });
+            //给页码标签添加点击事件
+            let page=1;
+            let pageSize=3;
+            ask(page,pageSize);
+            click(page,pageSize);
+        function click(page,pageSize){
+                $('#首页').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    scroll(page-1);
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#末页').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    scroll(page-1);
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#1').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#2').on('click',function () {
+                    console.log('666');
+                    page=2;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#3').on('click',function () {
+                    console.log('666');
+                    page=3;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#4').on('click',function () {
+                    console.log('666');
+                    page=4;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#5').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+               $('#up').on('click',function(){
+                   if(page>1 && page<=5){
+                      page--;
+                      scroll(page-1);
+                   }
+
+                   $('.data').remove();
+                   ask(page,pageSize);
+               });
+                $('#down').on('click',function(){
+                    if(page>=1 && page<5){
+                        page++;
+                        scroll(page-1);
+                   }
+                   console.log(page);
+                    $('.data').remove();
+                   ask(page,pageSize);
+               });
+            }
+
+
+        //
+        function ask(page,pageSize) {
+            dic='page='+page+'&pageSize='+pageSize;
+            create_csrf();
+            $.ajax({
+                url: '{%url "select_client"%}',
+                type: 'post',
+                data:dic,
+                success: function (res) {
+                    console.log(res);
+                    let data_list = res.list;
+                    console.log(data_list);
+                    for (let i = 0; i < data_list.length; i++) {
+                        let str = `
+                                <tr class="data">
+                                    <td>${3*page-2+i}</td>
+                                    <td>${data_list[i]['pk']}</td>
+                                    <td>${data_list[i]['fields']['name']}</td>
+                                    <td >${data_list[i]['fields']['identify_num']}</td>
+                                    <td>${data_list[i]['fields']['phone']}</td>
+                                    <td >2018年09月</td>
+                                    <td >20小时30分</td>
+                                </tr>
+
+                            `;
+                        $("#datalist").append($(str));
+                    }
+                }
+            });
+        }
+
+
+        //
+        $('#tab1').on('click',function () {
+            $('#datalist').css({
+                display:'block',
+            });
+            $('#datalist1').css({
+                display:'none',
+            });
+            $('#datalist2').css({
+                display:'none',
+            });
+        });
+        $('#tab2').on('click',function (ele) {
+            $('#datalist').css({
+                display:'none',
+            });
+            $('#datalist1').css({
+                display:'block',
+            });
+            $('#datalist2').css({
+                display:'none',
+            });
+        });
+        $('#tab3').on('click',function (ele) {
+            $('#datalist').css({
+                display:'none',
+            });
+            $('#datalist1').css({
+                display:'none',
+            });
+            $('#datalist2').css({
+                display:'block',
+            });
+        });
+
+
+
+    </script>
+</html>

@@ -1,0 +1,326 @@
+﻿{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global.css'%}" />
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global_color.css'%}"  />
+        <script language="javascript" type="text/javascript">
+            function deleteRole() {
+                var r = window.confirm("确定要删除此角色吗？");
+                document.getElementById("operate_result_info").style.display = "block";
+            }
+        </script>
+    </head>
+    <body>
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="{%static 'images/logo.png'%}" alt="logo" class="left"/>
+            <a href="{%url 'sl'%}">[退出]</a>
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <!--1-->
+                <li><a href="{%url 'index'%}" class="index_off"></a></li>
+                <!--2-->
+                <li><a href="{%url 'role_list'%}" class="role_on"></a></li>
+                <!--3-->
+                <li><a href="{%url 'sml'%}" class="admin_off"></a></li>
+                <!--4-->
+                <li><a href="{%url 'show_fee_list'%}" class="fee_off"></a></li>
+                <!--5-->
+                <li><a href="{%url 'show_account_list'%}" class="account_off"></a></li>
+
+                <!--6-->
+                <li><a href="{%url 'show_service_list'%}" class="service_off"></a></li>
+                <!--7-->
+                <li><a href="{%url 'show_bill_list'%}" class="bill_off"></a></li>
+                <!--8-->
+                <li><a href="{%url 'show_report_list'%}" class="report_off"></a></li>
+                <!--9-->
+                <li><a href="{%url 'show_user_info'%}" class="information_off"></a></li>
+                <!--10-->
+                <li><a href="{%url 'show_user_modi_pwd'%}" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->
+        <div id="main">
+            <form action="" method="">
+                <!--查询-->
+                <div class="search_add">
+                    <input type="button" value="增加" class="btn_add" />
+                </div>  
+                <!--删除的操作提示-->
+                <div id="operate_result_info" class="operate_success">
+                    <img src="{%static 'images/close.png'%}" onclick="this.parentNode.style.display='none';" />
+                    删除成功！
+                </div> <!--删除错误！该角色被使用，不能删除。-->
+                <!--数据区域：用表格展示数据-->     
+                <div id="data">                      
+                    <table id="datalist">
+                        <tr>                            
+                            <th>角色 ID</th>
+                            <th>角色名称</th>
+                            <th class="width600">拥有的权限</th>
+                            <th class="td_modi"></th>
+                        </tr>                      
+                        <!--<tr>-->
+                            <!--<td>1</td>-->
+                            <!--<td>贾强</td>-->
+                            <!--<td>角色管理、管理员管理、资费管理、账务账号、业务账号、账单、报表</td>-->
+                            <!--<td>-->
+                                <!--<input type="button" value="修改" class="btn_modify" onclick="location.href='role_modi.html';"/>-->
+                                <!--<input type="button" value="删除" class="btn_delete" onclick="deleteRole();" />-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>1</td>-->
+                            <!--<td>贾强</td>-->
+                            <!--<td>超级管理员、账单管理员</td>-->
+                            <!--<td>-->
+                                <!--<input type="button" value="修改" class="btn_modify" />-->
+                                <!--<input type="button" value="删除" class="btn_delete" />-->
+                            <!--</td>-->
+                        <!--</tr>-->
+
+                    </table>
+                </div> 
+                <!--分页-->
+                <div id="pages">
+        	        <a href="#" id="up">上一页</a>
+                    <a href="#" id="1" class="current_page  " name="页">1</a>
+                    <a href="#" id="2" name="页">2</a>
+                    <a href="#" id="3" name="页">3</a>
+                    <a href="#" id="4" name="页">4</a>
+                    <a href="#" id="5" name="页">5</a>
+                    <a href="#" id="down">下一页</a>
+                </div>
+            </form>
+        </div>
+        <!--主要区域结束-->
+        <div id="footer">
+            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+            <p>版权所有(C)云科技有限公司 </p>
+        </div>
+    </body>
+    <script src="{%static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{%static 'js/jquery.cookie.js'%}"></script>
+    <script src="{%static 'js/csrf.js'%}"></script>
+    <script>
+
+        //管理员身份判断
+        identify();
+        function identify() {
+                //判断登录的管理员是何种类别的管理员
+                let type=$.cookie('master_limit_type');
+                console.log(type);
+                let m_list=type.split(',');
+                let m_type1=0;
+                let m_type2=0;
+                let m_type3=0;
+                for(let i =0;i<m_list.length;i++){
+                    if( m_list[i]=='超级管理员'){
+                        m_type1=1;
+                    }
+                    else if( m_list[i]=='账目管理员'){
+                        m_type2=2;
+                    }
+                    else if( m_list[i]=='业务管理员'){
+                         m_type3=3;
+                    }
+
+                }
+                console.log(m_list);
+                //设置账目管理员权限
+                if(m_type1!=1){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    if(m_type2==2 && m_type3==0){
+
+                    $('ul li:nth-child(4) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(6) a').attr('href','{%url "snop"%}');
+
+                    }
+                //设置资费管理员权限
+                    else if(m_type2==0 && m_type3==3){
+
+                    $('ul li:nth-child(5) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(7) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(8) a').attr('href','{%url "snop"%}');
+
+                    }
+                }
+            }
+        //
+
+        function scroll(count){
+                $('#pages a[name="页"]').each(function(index,ele){
+                    $(ele).attr('class','');
+                });
+                $($('#pages a[name="页"]')[count]).attr('class','current_page');
+
+        }
+        $('#pages a[name="页"]').each(function(index,ele){
+
+                $(ele).on('click',function(){
+                    scroll(index);
+
+                });
+        });
+            //给页码标签添加点击事件
+            let page=1;
+            let pageSize=3;
+            ask(page,pageSize);
+
+            click(page,pageSize);
+        function click(page,pageSize){
+                $('#1').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#2').on('click',function () {
+                    console.log('666');
+                    page=2;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#3').on('click',function () {
+                    console.log('666');
+                    page=3;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#4').on('click',function () {
+                    console.log('666');
+                    page=4;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#5').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+               $('#up').on('click',function(){
+                   if(page>1 && page<=5){
+                      page--;
+                      scroll(page-1);
+                   }
+
+                   $('.data').remove();
+                   ask(page,pageSize);
+               });
+                $('#down').on('click',function(){
+                    if(page>=1 && page<5){
+                        page++;
+                        scroll(page-1);
+                   }
+                   console.log(page);
+                    $('.data').remove();
+                   ask(page,pageSize);
+               });
+            }
+        function ask(page,pageSize){
+            dic='page='+page+'&pageSize='+pageSize;
+            create_csrf();
+            $.ajax({
+                url:'{%url "select_master"%}',
+                type:'post',
+                data:dic,
+                success:function(res){
+                    let datas=res.list;
+                    console.log(datas);
+                    for(let i=0;i<datas.length;i++){
+                        let ss=res.list[i]['fields']['limit_type'].split('<br>');
+                        let datas=ss.toString().replace('<br/>','');
+                        //console.log(ss.toString().replace('<br/>',''));
+                            let str=`
+                                         <tr class="data">
+                                                <td>${3*page-2+i}</td>
+
+                                                <td>${res.list[i]['fields']['name']}</td>
+                                                <td>${datas}</td>
+                                                <td style="display: none">${res.list[i]['fields']['username']}</td>
+                                                <td>
+                                                    <input type="button" value="修改" class="btn_modify" />
+                                                    <input type="button" value="删除" class="btn_delete" />
+                                                </td>
+                                           </tr>
+
+                            `;
+                            $('table').append($(str));
+                    }
+                }
+
+            });
+            modify();
+
+            delete_data();
+
+        }
+        $('input[value="增加"]').on('click',function(){
+                window.location.href="{%url 'role_add'%}";
+         });
+        //定义修改函数
+        function modify(){
+             let timer=setTimeout(function () {
+                 $('input[value="修改"]').each(function(index,ele){
+
+                    $(ele).on('click',function(){
+                        //获取tr的值传递给另一个页面
+                        let limit_type=$(this).parent().parent();
+                        let data_list=limit_type.find('td');
+                        let data_dic={'name':data_list[1].innerHTML,'limit_type':data_list[2].innerHTML};
+                        let data_str=data_list[1].innerHTML+'&'+data_list[2].innerHTML+'&'+data_list[3].innerHTML;
+                        console.log(data_str);
+                        $.cookie('data',data_str,{path:'/'});
+                        window.location.href="{%url 'role_modi'%}";
+
+                    });
+
+                });
+             },1000);
+
+
+        }
+        //定义删除函数
+        function delete_data(){
+            let timer=setTimeout(function () {
+                 $('input[value="删除"]').each(function(index,ele){
+
+                    $(ele).on('click',function(){
+                        deleteRole();
+                        //获取tr的值传递给另一个页面
+                        let limit_type=$(this).parent().parent();
+                        let data_list=limit_type.find('td');
+                        let data_dic={'name':data_list[1].innerHTML,'limit_type':data_list[2].innerHTML};
+                        let data_str=data_list[1].innerHTML+'&'+data_list[2].innerHTML;
+                        console.log(data_str);
+                        $.ajax({
+                            url:'{%url "delete_master"%}',
+                            type:'post',
+                            data:data_dic,
+                            success:function(res){
+                                console.log(res);
+                                window.location.href='{%url "role_list"%}';
+                            }
+                         });
+
+
+                    });
+
+                });
+             },1000);
+
+        }
+
+
+    </script>
+</html>

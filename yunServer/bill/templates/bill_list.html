@@ -1,0 +1,368 @@
+﻿{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global.css'%}" />
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global_color.css'%}" />
+        <script language="javascript" type="text/javascript">
+            //写入下拉框中的年份和月份
+            function initialYearAndMonth() {
+                //写入最近3年
+                var yearObj = document.getElementById("selYears");
+                var year = (new Date()).getFullYear();
+                for (var i = 0; i <= 2; i++) {
+                    var opObj = new Option(year - i, year - i);
+                    yearObj.options[i] = opObj;
+                }
+                //写入 12 月
+                var monthObj = document.getElementById("selMonths");
+                var opObj = new Option("全部", "全部");
+                monthObj.options[0] = opObj;
+                for (var i = 1; i <= 12; i++) {
+                    var opObj = new Option(i, i);
+                    monthObj.options[i] = opObj;
+                }
+            }
+        </script>
+    </head>
+    <body onload="initialYearAndMonth();">
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="{%static 'images/logo.png'%}" alt="logo" class="left"/>
+            <a href="{%url 'sl'%}">[退出]</a>
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <!--1-->
+                <li><a href="{%url 'index'%}" class="index_off"></a></li>
+                <!--2-->
+                <li><a href="{%url 'role_list'%}" class="role_off"></a></li>
+                <!--3-->
+                <li><a href="{%url 'sml'%}" class="admin_off"></a></li>
+                <!--4-->
+                <li><a href="{%url 'show_fee_list'%}" class="fee_off"></a></li>
+                <!--5-->
+                <li><a href="{%url 'show_account_list'%}" class="account_off"></a></li>
+
+                <!--6-->
+                <li><a href="{%url 'show_service_list'%}" class="service_off"></a></li>
+                <!--7-->
+                <li><a href="{%url 'show_bill_list'%}" class="bill_on"></a></li>
+                <!--8-->
+                <li><a href="{%url 'show_report_list'%}" class="report_off"></a></li>
+                <!--9-->
+                <li><a href="{%url 'show_user_info'%}" class="information_off"></a></li>
+                <!--10-->
+                <li><a href="{%url 'show_user_modi_pwd'%}" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->
+        <div id="main">
+            <form action="" method="">
+                <!--查询-->
+                <div class="search_add">                        
+                    <div>身份证：<input type="text"  value="230101111111111111" class="text_search" /></div>
+                    <div>账务账号：<input type="text" value="admin1" class="width100 text_search" /></div>                            
+                    <div>姓名：<input type="text" value="张三" class="width70 text_search" /></div>
+                    <div>
+                        <select class="select_search" id="selYears">
+                        </select>
+                        年
+                        <select class="select_search" id="selMonths">
+                        </select>
+                        月
+                    </div>
+                    <div><input type="button" value="搜索" class="btn_search" /></div>
+                </div>  
+                <!--数据区域：用表格展示数据-->     
+                <div id="data">            
+                    <table id="datalist">
+                    <tr>
+                        <th class="width50">账单ID</th>
+                        <th class="width70">姓名</th>
+                        <th class="width150">身份证</th>
+                        <th class="width150">账务账号</th>
+                        <th>费用</th>
+                        <th class="width100">月份</th>
+                        <th class="width100">支付方式</th>
+                        <th class="width100">支付状态</th>                                                        
+                        <th class="width50"></th>
+                    </tr>
+
+                    <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>李四</td>-->
+                        <!--<td>230102197901111111</td>-->
+                        <!--<td>admin2</td>-->
+                        <!--<td>843.00</td>-->
+                        <!--<td>2012年9月</td>-->
+                        <!--<td>现金</td>-->
+                        <!--<td>已支付</td>                            -->
+                        <!--<td><a href="bill_item.html" title="账单明细">明细</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>王五</td>-->
+                        <!--<td>230111111111111111</td>-->
+                        <!--<td>admin3</td>-->
+                        <!--<td>12.00</td>-->
+                        <!--<td>2012年10月</td>-->
+                        <!--<td></td>-->
+                        <!--<td>未支付</td>                            -->
+                        <!--<td><a href="bill_item.html" title="账单明细">明细</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>4</td>-->
+                        <!--<td>张三</td>-->
+                        <!--<td>230102197902137862</td>-->
+                        <!--<td>admin1</td>-->
+                        <!--<td>543.45</td>-->
+                        <!--<td>2012年8月</td>-->
+                        <!--<td></td>-->
+                        <!--<td>未支付</td>                            -->
+                        <!--<td><a href="bill_item.html" title="账单明细">明细</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>5</td>-->
+                        <!--<td>李四</td>-->
+                        <!--<td>230102197901111111</td>-->
+                        <!--<td>admin2</td>-->
+                        <!--<td>843.00</td>-->
+                        <!--<td>2012年9月</td>-->
+                        <!--<td>现金</td>-->
+                        <!--<td>已支付</td>                            -->
+                        <!--<td><a href="bill_item.html" title="账单明细">明细</a></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>6</td>-->
+                        <!--<td>王五</td>-->
+                        <!--<td>230111111111111111</td>-->
+                        <!--<td>admin3</td>-->
+                        <!--<td>12.00</td>-->
+                        <!--<td>2012年10月</td>-->
+                        <!--<td></td>-->
+                        <!--<td>未支付</td>                            -->
+                        <!--<td><a href="bill_item.html" title="账单明细">明细</a></td>-->
+                    <!--</tr>-->
+                </table>
+                
+                <p>业务说明：<br />
+                1、设计支付方式和支付状态，为用户自服务中的支付功能预留；<br />
+                2、只查询近 3 年的账单，即当前年和前两年，如2013/2012/2011；<br />
+                3、年和月的数据由 js 代码自动生成；<br />
+                4、由数据库中的ｊｏｂ每月的月底定时计算账单数据。</p>
+                </div>                    
+                <!--分页-->
+                <div id="pages">
+                    <a href="#" id="首页">首页</a>
+        	        <a href="#" id="up">上一页</a>
+                    <a href="#" id="1" class="current_page" name="页">1</a>
+                    <a href="#" id="2" name="页">2</a>
+                    <a href="#" id="3" name="页">3</a>
+                    <a href="#" id="4" name="页">4</a>
+                    <a href="#" id="5" name="页">5</a>
+                    <a href="#" id="down">下一页</a>
+                    <a href="#" id="末页">末页</a>
+                </div>                    
+            </form>
+        </div>
+        <!--主要区域结束-->
+        <div id="footer">
+            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+            <p>版权所有(C)云科技有限公司 </p>
+        </div>
+    </body>
+    <script src="{%static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{%static 'js/jquery.cookie.js'%}"></script>
+    <script src="{%static 'js/csrf.js'%}"></script>
+    <script>
+        //登录权限验证
+        identify();
+        function identify() {
+                //判断登录的管理员是何种类别的管理员
+                let type=$.cookie('master_limit_type');
+                console.log(type);
+                let m_list=type.split(',');
+                let m_type1=0;
+                let m_type2=0;
+                let m_type3=0;
+                for(let i =0;i<m_list.length;i++){
+                    if( m_list[i]=='超级管理员'){
+                        m_type1=1;
+                    }
+                    else if( m_list[i]=='账目管理员'){
+                        m_type2=2;
+                    }
+                    else if( m_list[i]=='业务管理员'){
+                         m_type3=3;
+                    }
+
+                }
+                console.log(m_list);
+                //设置账目管理员权限
+                if(m_type1!=1){
+                    if(m_type2==2 && m_type3==0){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(4) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(6) a').attr('href','{%url "snop"%}');
+
+                    }
+                //设置资费管理员权限
+                    else if(m_type2==0 && m_type3==3){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(5) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(7) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(8) a').attr('href','{%url "snop"%}');
+
+                    }
+                }
+            }
+        //
+        function scroll(count){
+                $('#pages a[name="页"]').each(function(index,ele){
+                    $(ele).attr('class','');
+                });
+                $($('#pages a[name="页"]')[count]).attr('class','current_page');
+
+        }
+        $('#pages a[name="页"]').each(function(index,ele){
+
+                $(ele).on('click',function(){
+                    scroll(index);
+
+                });
+        });
+            //给页码标签添加点击事件
+            let page=1;
+            let pageSize=3;
+            ask(page,pageSize);
+
+            click(page,pageSize);
+        function click(page,pageSize){
+                $('#首页').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    scroll(page-1);
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#末页').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    scroll(page-1);
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#1').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#2').on('click',function () {
+                    console.log('666');
+                    page=2;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#3').on('click',function () {
+                    console.log('666');
+                    page=3;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#4').on('click',function () {
+                    console.log('666');
+                    page=4;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#5').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+               $('#up').on('click',function(){
+                   if(page>1 && page<=5){
+                      page--;
+                      scroll(page-1);
+                   }
+
+                   $('.data').remove();
+                   ask(page,pageSize);
+               });
+                $('#down').on('click',function(){
+                    if(page>=1 && page<5){
+                        page++;
+                        scroll(page-1);
+                   }
+                   console.log(page);
+                    $('.data').remove();
+                   ask(page,pageSize);
+               });
+            }
+
+        function ask(page,pageSize){
+            dic='page='+page+'&pageSize='+pageSize;
+            create_csrf();
+            $.ajax({
+                url:'{%url "select_client"%}',
+                type:'post',
+                data:dic,
+                success:function(res){
+                    let datas=res.list;
+                    console.log(datas);
+
+                    for(let i=0;i<datas.length;i++){
+                        let ss=res.list[i]['fields']
+                        console.log(ss);
+                            let str=`
+                                         <tr class="data">
+                                                <td>${3*page-2+i}</td>
+
+                                                <td>${res.list[i]['fields']['name']}</td>
+                                                <td>${res.list[i]['fields']['identify_num']}</td>
+                                                <td>${'z'+res.list[i]['pk']}</td>
+                                                <td>${'550.00'}</td>
+                                                <td>${'2012年8月'}</td>
+                                                <td>微信</td>
+                                                <td>未支付</td>
+                                                <td><a href="{%url 'show_bill_item'%}" title="账单明细" class="skip">明细</a></td>
+                                           </tr>
+
+                            `;
+                            $('table').append($(str));
+                    }
+                    skip_bill_item();
+                }
+
+            });
+            // modify();
+            //
+            // delete_data();
+            // stop();
+
+        }
+
+        function skip_bill_item() {
+            $('.skip').each(function(index,ele){
+                $(ele).on('click',function(){
+                        let limit_type=$(this).parent().parent();
+                        let data_list=limit_type.find('td');
+                        let data_str=data_list[1].innerHTML+'&'+data_list[2].innerHTML+'&'+data_list[3].innerHTML;
+                        $.cookie('bill_data',data_str,{path:'/'});
+                })
+            })
+        }
+
+
+    </script>
+</html>

@@ -1,0 +1,399 @@
+﻿{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global.css'%}" />
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global_color.css'%}" />
+        <script language="javascript" type="text/javascript">
+            //排序按钮的点击事件
+            function sort(btnObj) {
+                if (btnObj.className == "sort_desc")
+                    btnObj.className = "sort_asc";
+                else
+                    btnObj.className = "sort_desc";
+            }
+
+            //启用
+            function startFee() {
+                var r = window.confirm("确定要启用此资费吗？资费启用后将不能修改和删除。");
+                document.getElementById("operate_result_info").style.display = "block";
+            }
+            //删除
+            function deleteFee() {
+                var r = window.confirm("确定要删除此资费吗？");
+                document.getElementById("operate_result_info").style.display = "block";
+            }
+        </script>        
+    </head>
+    <body>
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="{%static 'images/logo.png'%}" alt="logo" class="left"/>
+            <a href="{%url 'sl'%}">[退出]</a>
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <!--1-->
+                <li><a href="{%url 'index'%}" class="index_off"></a></li>
+                <!--2-->
+                <li><a href="{%url 'role_list'%}" class="role_off"></a></li>
+                <!--3-->
+                <li><a href="{%url 'sml'%}" class="admin_off"></a></li>
+                <!--4-->
+                <li><a href="{%url 'show_fee_list'%}" class="fee_on"></a></li>
+                <!--5-->
+                <li><a href="{%url 'show_account_list'%}" class="account_off"></a></li>
+
+                <!--6-->
+                <li><a href="{%url 'show_service_list'%}" class="service_off"></a></li>
+                <!--7-->
+                <li><a href="{%url 'show_bill_list'%}" class="bill_off"></a></li>
+                <!--8-->
+                <li><a href="{%url 'show_report_list'%}" class="report_off"></a></li>
+                <!--9-->
+                <li><a href="{%url 'show_user_info'%}" class="information_off"></a></li>
+                <!--10-->
+                <li><a href="{%url 'show_user_modi_pwd'%}" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->
+        <div id="main">
+            <form action="" method="">
+                <!--排序-->
+                <div class="search_add">
+                    <div>
+                        <!--<input type="button" value="月租" class="sort_asc" onclick="sort(this);" />-->
+                        <input type="button" value="基费" class="sort_asc" onclick="sort(this);" />
+                        <input type="button" value="时长" class="sort_asc" onclick="sort(this);" />
+                    </div>
+                    <input type="button" value="增加" class="btn_add" onclick="location.href='fee_add.html';" />
+                </div> 
+                <!--启用操作的操作提示-->
+                <div id="operate_result_info" class="operate_success">
+                    <img src="{%static 'images/close.png'%}" onclick="this.parentNode.style.display='none';" />
+                    删除成功！
+                </div>    
+                <!--数据区域：用表格展示数据-->     
+                <div id="data">            
+                    <table id="datalist">
+                        <tr>
+                            <th>资费ID</th>
+                            <th class="width100">资费名称</th>
+                            <th>基本时长</th>
+                            <th>基本费用</th>
+                            <th>单位费用</th>
+                            <th>创建时间</th>
+                            <th>开通时间</th>
+                            <th class="width50">状态</th>
+                            <th class="width200"></th>
+                        </tr>
+
+                    </table>
+                    <p>业务说明：<br />
+                    1、创建资费时，状态为暂停，记载创建时间；<br />
+                    2、暂停状态下，可修改，可删除；<br />
+                    3、开通后，记载开通时间，且开通后不能修改、不能再停用、也不能删除；<br />
+                    4、业务账号修改资费时，在下月底统一触发，修改其关联的资费ID（此触发动作由程序处理）
+                    </p>
+                </div>
+                <!--分页-->
+                <div id="pages">
+        	        <a href="#" id="up">上一页</a>
+                    <a href="#" id="1" class="current_page  " name="页">1</a>
+                    <a href="#" id="2" name="页">2</a>
+                    <a href="#" id="3" name="页">3</a>
+                    <a href="#" id="4" name="页">4</a>
+                    <a href="#" id="5" name="页">5</a>
+                    <a href="#" id="down">下一页</a>
+                </div>
+            </form>
+        </div>
+        <!--主要区域结束-->
+        <div id="footer">
+            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+            <p>版权所有(C)云科技有限公司</p>
+        </div>
+    </body>
+    <script src="{%static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{%static 'js/jquery.cookie.js'%}"></script>
+    <script src="{%static 'js/csrf.js'%}"></script>
+    <script>
+        //管理员身份判断
+        identify();
+        function identify() {
+                //判断登录的管理员是何种类别的管理员
+                let type=$.cookie('master_limit_type');
+                console.log(type);
+                let m_list=type.split(',');
+                let m_type1=0;
+                let m_type2=0;
+                let m_type3=0;
+                for(let i =0;i<m_list.length;i++){
+                    if( m_list[i]=='超级管理员'){
+                        m_type1=1;
+                    }
+                    else if( m_list[i]=='账目管理员'){
+                        m_type2=2;
+                    }
+                    else if( m_list[i]=='业务管理员'){
+                         m_type3=3;
+                    }
+
+                }
+                console.log(m_list);
+                //设置账目管理员权限
+                if(m_type1!=1){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    if(m_type2==2 && m_type3==0){
+                    $('ul li:nth-child(4) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(6) a').attr('href','{%url "snop"%}');
+
+                    }
+                //设置资费管理员权限
+                    else if(m_type2==0 && m_type3==3){
+
+                    $('ul li:nth-child(5) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(7) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(8) a').attr('href','{%url "snop"%}');
+
+                    }
+                }
+            }
+        //
+
+
+
+        $('input[value="增加"]').on('click',function(){
+                window.location.href="{%url 'show_fee_add'%}";
+         });
+
+        function scroll(count){
+                $('#pages a[name="页"]').each(function(index,ele){
+                    $(ele).attr('class','');
+                });
+                $($('#pages a[name="页"]')[count]).attr('class','current_page');
+
+        }
+        $('#pages a[name="页"]').each(function(index,ele){
+
+                $(ele).on('click',function(){
+                    scroll(index);
+
+                });
+        });
+            //给页码标签添加点击事件
+            let page=1;
+            let pageSize=3;
+            ask(page,pageSize);
+
+            click(page,pageSize);
+        function click(page,pageSize){
+                $('#1').on('click',function () {
+                    console.log('666');
+                    page=1;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#2').on('click',function () {
+                    console.log('666');
+                    page=2;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#3').on('click',function () {
+                    console.log('666');
+                    page=3;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#4').on('click',function () {
+                    console.log('666');
+                    page=4;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+                $('#5').on('click',function () {
+                    console.log('666');
+                    page=5;
+                    $('.data').remove();
+                    ask(page,pageSize);
+                });
+               $('#up').on('click',function(){
+                   if(page>1 && page<=5){
+                      page--;
+                      scroll(page-1);
+                   }
+
+                   $('.data').remove();
+                   ask(page,pageSize);
+               });
+                $('#down').on('click',function(){
+                    if(page>=1 && page<5){
+                        page++;
+                        scroll(page-1);
+                   }
+                   console.log(page);
+                    $('.data').remove();
+                   ask(page,pageSize);
+               });
+            }
+        function ask(page,pageSize){
+            dic='page='+page+'&pageSize='+pageSize;
+            create_csrf();
+            $.ajax({
+                url:'{%url "select_product"%}',
+                type:'post',
+                data:dic,
+                success:function(res){
+                    let datas=res.list;
+                    console.log(datas);
+                    for(let i=0;i<datas.length;i++){
+                        let strr='';
+                        if(res.list[i]['fields']['product_type']=='开通') {
+                             strr = `
+                                         <tr class="data">
+                                                <td>${3 * page - 2 + i}</td>
+                                                <td>${res.list[i]['pk']}</td>
+
+                                                <td>${res.list[i]['fields']['product_time']}</td>
+                                                <td>${res.list[i]['fields']['product_cost']}</td>
+                                                <td >${res.list[i]['fields']['unit_cost']}</td>
+                                                <td>${res.list[i]['fields']['regist_time']}</td>
+                                                <td>${res.list[i]['fields']['kai_time']}</td>
+                                                <td>${res.list[i]['fields']['product_type']}</td>
+                                                <!--<td>-->
+                                                    <!--<input type="button" value="启用" class="btn_start" " />-->
+                                                    <!--<input type="button" value="修改" class="btn_modify" />-->
+                                                    <!--<input type="button" value="删除" class="btn_delete" />-->
+                                                <!--</td>-->
+                                           </tr>
+
+                            `;
+                        }
+                        else {
+                                                        strr = `
+                                         <tr class="data">
+                                                <td>${3 * page - 2 + i}</td>
+                                                <td>${res.list[i]['pk']}</td>
+
+                                                <td>${res.list[i]['fields']['product_time']}</td>
+                                                <td>${res.list[i]['fields']['product_cost']}</td>
+                                                <td >${res.list[i]['fields']['unit_cost']}</td>
+                                                <td>${res.list[i]['fields']['regist_time']}</td>
+                                                <td>${res.list[i]['fields']['kai_time']}</td>
+                                                <td>${res.list[i]['fields']['product_type']}</td>
+                                                <td>
+                                                    <input type="button" value="启用" class="btn_start" " />
+                                                    <input type="button" value="修改" class="btn_modify" />
+                                                    <input type="button" value="删除" class="btn_delete" />
+                                                </td>
+                                           </tr>
+
+                            `;
+                        }
+                            $('table').append($(strr));
+                    }
+                }
+
+            });
+            modify();
+
+            delete_data();
+            start();
+
+        }
+
+        //定义修改函数
+        function modify(){
+             let timer=setTimeout(function () {
+                 $('input[value="修改"]').each(function(index,ele){
+
+                    $(ele).on('click',function(){
+                        console.log('000');
+                        //获取tr的值传递给另一个页面
+                        let limit_type=$(this).parent().parent();
+                        let data_list=limit_type.find('td');
+                        //let data_dic={'name':data_list[1].innerHTML,'limit_type':data_list[2].innerHTML};
+                        let data_str=data_list[0].innerHTML+'&'+data_list[1].innerHTML+'&'+data_list[2].innerHTML+'&'+data_list[3].innerHTML
+                        +'&'+data_list[4].innerHTML+'&'+data_list[5].innerHTML+'&'+data_list[6].innerHTML;
+                        console.log(data_str);
+                        $.cookie('fee_data',data_str,{path:'/'});
+                        window.location.href="{%url 'show_fee_modi'%}";
+
+                    });
+
+                });
+             },1000);
+
+
+        }
+        //定义删除函数
+        function delete_data(){
+            let timer=setTimeout(function () {
+                 $('input[value="删除"]').each(function(index,ele){
+
+                    $(ele).on('click',function(){
+                        deleteFee();
+                        //获取tr的值传递给另一个页面
+                        let limit_type=$(this).parent().parent();
+                        let data_list=limit_type.find('td');
+                        console.log(data_list);
+                        let data_dic={'product_name':data_list[1].innerHTML}
+                        // let data_str=data_list[1].innerHTML+'&'+data_list[2].innerHTML;
+                        // console.log(data_str);
+                        $.ajax({
+                            url:'{%url "delete_product"%}',
+                            type:'post',
+                            data:data_dic,
+                            success:function(res){
+                                console.log(res);
+                                window.location.href='{%url "show_fee_list"%}';
+                            }
+                         });
+
+
+                    });
+
+                });
+             },1000);
+
+        }
+        //定义函数完成启用功能
+        function start(){
+               let timer=setTimeout(function (){
+                   $('input[value="启用"]').each(function(index,ele){
+
+                       $(ele).on('click',function(){
+                            let limit_type=$(this).parent().parent();
+                            let data_list=limit_type.find('td');
+
+                            let data_dic={'product_name':data_list[1].innerHTML}
+                            console.log(data_dic);
+                            $.ajax({
+                                url:'{%url "start_product"%}',
+                                type:'post',
+                                data:data_dic,
+                                success:function(res){
+                                    console.log(res);
+                                    alert('启动成功');
+
+                                    window.location.href='{%url "show_fee_list"%}';
+                                }
+                            });
+
+                       });
+
+                   });
+               },1000)
+        }
+
+
+    </script>
+
+</html>

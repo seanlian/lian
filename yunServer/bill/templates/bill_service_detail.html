@@ -1,0 +1,210 @@
+﻿{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global.css'%}" />
+        <link type="text/css" rel="stylesheet" media="all" href="{%static 'styles/global_color.css'%}" />
+        <script>
+            function  go_back() {
+                window.location.href='{%url "show_bill_item"%}';
+            }
+        </script>
+    </head>
+    <!--onload="initialYearAndMonth();"-->
+    <body >
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="{%static 'images/logo.png'%}" alt="logo" class="left"/>
+            <a href="{%url 'sl'%}">[退出]</a>
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">                        
+            <ul id="menu">
+                <!--1-->
+                <li><a href="{%url 'index'%}" class="index_off"></a></li>
+                <!--2-->
+                <li><a href="{%url 'role_list'%}" class="role_off"></a></li>
+                <!--3-->
+                <li><a href="{%url 'sml'%}" class="admin_off"></a></li>
+                <!--4-->
+                <li><a href="{%url 'show_fee_list'%}" class="fee_off"></a></li>
+                <!--5-->
+                <li><a href="{%url 'show_account_list'%}" class="account_off"></a></li>
+
+                <!--6-->
+                <li><a href="{%url 'show_service_list'%}" class="service_off"></a></li>
+                <!--7-->
+                <li><a href="{%url 'show_bill_list'%}" class="bill_on"></a></li>
+                <!--8-->
+                <li><a href="{%url 'show_report_list'%}" class="report_off"></a></li>
+                <!--9-->
+                <li><a href="{%url 'show_user_info'%}" class="information_off"></a></li>
+                <!--10-->
+                <li><a href="{%url 'show_user_modi_pwd'%}" class="password_off"></a></li>
+            </ul>            
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->
+        <div id="main">
+            <form action="" method="">
+                <!--查询-->
+                <div class="search_add">                        
+                    <div>账务账号：<span class="readonly width70" id="zaccount">admin1</span></div>
+                    <div>OS 账号：<span class="readonly width100" id="osname">openlab1</span></div>
+                    <div>服务器 IP：<span class="readonly width100">192.168.0.20</span></div>
+                    <div>计费时间：<span class="readonly width70">2013年8月</span></div>
+                    <div>费用：<span class="readonly width70">34.78</span></div>
+                    <input type="button" value="返回" class="btn_add" onclick="go_back();" />
+                </div>  
+                <!--数据区域：用表格展示数据-->     
+                <div id="data">            
+                    <table id="datalist">
+                        <tr>
+                            <th class="width150">客户登录 IP</th>
+                            <th class="width150">登入时刻</th>
+                            <th class="width150">登出时刻</th>
+                            <th class="width100">时长（秒）</th>
+                            <th class="width150">费用</th>
+                            <th>资费</th>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td>192.168.100.100</td>-->
+                            <!--<td>2013/01/01 12:12:12</td>-->
+                            <!--<td>2013/01/01 12:12:22</td>-->
+                            <!--<td>10</td>-->
+                            <!--<td>0</td>-->
+                            <!--<td>包 20 小时</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>192.168.100.100</td>-->
+                            <!--<td>2013/01/01 12:12:12</td>-->
+                            <!--<td>2013/01/01 12:12:22</td>-->
+                            <!--<td>10</td>-->
+                            <!--<td>0</td>-->
+                            <!--<td>包 20 小时</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>192.168.100.100</td>-->
+                            <!--<td>2013/01/01 12:12:12</td>-->
+                            <!--<td>2013/01/01 12:12:22</td>-->
+                            <!--<td>10</td>-->
+                            <!--<td>0</td>-->
+                            <!--<td>包 20 小时</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>192.168.100.100</td>-->
+                            <!--<td>2013/01/01 12:12:12</td>-->
+                            <!--<td>2013/01/01 12:12:22</td>-->
+                            <!--<td>10</td>-->
+                            <!--<td>0.45</td>-->
+                            <!--<td>包 20 小时</td>-->
+                        <!--</tr>-->
+                    </table>
+                </div>
+                <!--分页-->
+                <div id="pages">
+        	        <a href="#" id="up">上一页</a>
+                    <a href="#" class="current_page">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#" id="down">下一页</a>
+                </div>                    
+            </form>
+        </div>
+        <!--主要区域结束-->
+        <div id="footer">
+            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+           <p>版权所有(C)云科技有限公司 </p>
+        </div>
+    </body>
+    <script src="{%static 'js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{%static 'js/jquery.cookie.js'%}"></script>
+    <script src="{%static 'js/csrf.js'%}"></script>
+    <script>
+        //登录权限验证
+        identify();
+        get_client_p_name();
+        function identify() {
+                //判断登录的管理员是何种类别的管理员
+                let type=$.cookie('master_limit_type');
+                console.log(type);
+                let m_list=type.split(',');
+                let m_type1=0;
+                let m_type2=0;
+                let m_type3=0;
+                for(let i =0;i<m_list.length;i++){
+                    if( m_list[i]=='超级管理员'){
+                        m_type1=1;
+                    }
+                    else if( m_list[i]=='账目管理员'){
+                        m_type2=2;
+                    }
+                    else if( m_list[i]=='业务管理员'){
+                         m_type3=3;
+                    }
+
+                }
+                console.log(m_list);
+                //设置账目管理员权限
+                if(m_type1!=1){
+                    if(m_type2==2 && m_type3==0){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(4) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(6) a').attr('href','{%url "snop"%}');
+
+                    }
+                //设置资费管理员权限
+                    else if(m_type2==0 && m_type3==3){
+                    $('ul li:nth-child(2) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(3) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(5) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(7) a').attr('href','{%url "snop"%}');
+                    $('ul li:nth-child(8) a').attr('href','{%url "snop"%}');
+
+                    }
+                }
+            }
+        //
+        function get_client_p_name(){
+            let bill_detail=$.cookie('bill_item_data');
+            let bill_list=bill_detail.split('&');
+            $('#zaccount').text(bill_list[0]);
+            $('#osname').text(bill_list[1]);
+            let dic={'osname':bill_list[1]};
+            $.ajax({
+                url:'{%url "select_client_message"%}',
+                type:'post',
+                data:dic,
+                success:function (res) {
+                    res=JSON.parse(res);
+                    let data_list=res.list;
+                    console.log(data_list);
+                    for(let i=0;i<data_list.length;i++){
+                        console.log(data_list[i]['pk']);
+                        let strr=`
+
+                        <tr class="data">
+                            <td>192.168.100.100</td>
+                            <td>2013/01/01 12:12:12</td>
+                            <td>2013/01/01 12:12:22</td>
+                            <td>10</td>
+                            <td>0.45</td>
+                            <td>${data_list[i]['pk']}</td>
+                        </tr>
+                        `;
+
+                        $('table').append($(strr));
+                    }
+
+                }
+            });
+        }
+
+    </script>
+</html>
